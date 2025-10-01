@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { useState, useEffect } from "react";
 import SmoothLoopSkills from "~/components/SmoothLoopSkills";
 import PortfolioSection from "~/components/PortfolioSection";
+import ProjectSection from "~/components/ProjectSection";
 
 export const meta: MetaFunction = () => {
   return [
@@ -102,6 +103,9 @@ export default function Index() {
 
       {/* Portfolio Section */}
       <PortfolioSection />
+
+      {/* Projects Section */}
+      <ProjectSection />
     </div>
   );
 }

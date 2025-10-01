@@ -78,7 +78,7 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
       </div>
 
       {/* Content - Minimalist focus on the image */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center px-6 max-w-6xl" style={{ marginTop: '5vh', marginBottom: '5vh' }}>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center px-6 max-w-6xl" style={{ marginTop: '4vh', marginBottom: '4vh' }}>
         <div className="mb-16" style={{ paddingTop: '32rem', paddingBottom: '2rem' }}>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-playfair" style={{ lineHeight: '1.2' }}>
             My <span className="text-gray-400">Portfolio</span>
