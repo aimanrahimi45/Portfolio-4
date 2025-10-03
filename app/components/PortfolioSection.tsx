@@ -28,7 +28,7 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
         start: 'top 20%',
         end: 'bottom 20%',
         scrub: true,
-        markers: true
+        markers: false
       }
     });
 
@@ -140,7 +140,7 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
 
       {/* Content - Minimalist focus on the image */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center px-6 max-w-6xl" style={{ marginTop: '4vh', marginBottom: '4vh' }}>
-        <div className="mb-16" style={{ paddingTop: '32rem', paddingBottom: '2rem' }}>
+        <div className="mb-16" style={{ paddingTop: '25rem', paddingBottom: '2rem' }}>
           <h2
             ref={titleRef}
             className="text-4xl md:text-6xl font-bold text-white mb-6 font-playfair"
