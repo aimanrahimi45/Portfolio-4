@@ -175,6 +175,9 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
             mousewheel={{
               releaseOnEdges: true,
               eventsTarget: 'container',
+              forceToAxis: true,
+              sensitivity: 0.5,
+              thresholdDelta: 10,
             }}
             pagination={{
               clickable: true,
