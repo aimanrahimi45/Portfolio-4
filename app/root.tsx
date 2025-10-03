@@ -36,6 +36,11 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap",
   },
+  // Swiper CSS
+  {
+    rel: "stylesheet",
+    href: "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css",
+  },
 ];
 
 export default function App() {

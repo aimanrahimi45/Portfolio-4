@@ -5,6 +5,11 @@ export default {
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
+  serverDependenciesToBundle: [
+    /^swiper.*/,
+    /^ssr-window.*/,
+    /^dom7.*/,
+  ],
   future: {
     v3_fetcherPersist: true,
     v3_lazyRouteDiscovery: true,
