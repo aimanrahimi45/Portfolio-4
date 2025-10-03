@@ -76,7 +76,7 @@ export default function Index() {
             mounted ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-xl translate-y-8'
           }`}>
             <button
-              onClick={() => scrollToSection('projects')}
+              onClick={() => scrollToSection('portfolio')}
               className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40"
             >
               View Portfolio
@@ -106,6 +106,7 @@ export default function Index() {
 
       {/* Projects Section */}
       <ProjectSection />
+
     </div>
   );
 }
