@@ -50,12 +50,57 @@ const projects: Project[] = [
 export default function ProjectSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
+  const titlesRef = useRef<HTMLHeadingElement[]>([]);
+  const descriptionsRef = useRef<HTMLParagraphElement[]>([]);
+  const headerTitleRef = useRef<HTMLHeadingElement>(null);
+  const headerDescriptionRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !cardsRef.current.length) return;
+    if (typeof window === 'undefined') return;
 
     const cards = cardsRef.current;
+    const titles = titlesRef.current;
+    const descriptions = descriptionsRef.current;
     const lastCardIndex = cards.length - 1;
+
+    // Animate header elements
+    if (headerTitleRef.current) {
+      gsap.fromTo(headerTitleRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: headerTitleRef.current,
+            start: "top 80%",
+            end: "top 50%",
+            scrub: true,
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    }
+
+    if (headerDescriptionRef.current) {
+      gsap.fromTo(headerDescriptionRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: headerDescriptionRef.current,
+            start: "top 80%",
+            end: "top 50%",
+            scrub: true,
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    }
+
+    if (!cards.length) return;
 
     // Create ScrollTriggers for first and last card
     const firstCardST = ScrollTrigger.create({
@@ -68,7 +113,7 @@ export default function ProjectSection() {
       start: "center center"
     });
 
-    // Initialize GSAP animations
+    // Initialize GSAP animations for cards
     cards.forEach((card, index) => {
       const scale = index === lastCardIndex ? 1 : 0.5;
       const scaleDown = gsap.to(card, {
@@ -88,6 +133,47 @@ export default function ProjectSection() {
       });
     });
 
+    // Initialize GSAP animations for titles and descriptions
+    titles.forEach((title, index) => {
+      if (title) {
+        gsap.fromTo(title,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: title,
+              start: "top 80%",
+              end: "top 20%",
+              scrub: true,
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      }
+    });
+
+    descriptions.forEach((description, index) => {
+      if (description) {
+        gsap.fromTo(description,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: description,
+              start: "top 80%",
+              end: "top 20%",
+              scrub: true,
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      }
+    });
+
     return () => {
       ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill());
     };
@@ -99,14 +185,32 @@ export default function ProjectSection() {
     }
   };
 
+  const addToTitleRefs = (el: HTMLHeadingElement | null, index: number) => {
+    if (el) {
+      titlesRef.current[index] = el;
+    }
+  };
+
+  const addToDescriptionRefs = (el: HTMLParagraphElement | null, index: number) => {
+    if (el) {
+      descriptionsRef.current[index] = el;
+    }
+  };
+
   return (
     <section id="projects" ref={sectionRef} className="min-h-screen bg-black relative overflow-hidden py-20">
       {/* Section Header */}
       <div className="container mx-auto px-6 text-center mb-16">
-        <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-playfair">
+        <h2
+          ref={headerTitleRef}
+          className="text-4xl md:text-6xl font-bold text-white mb-6 font-playfair"
+        >
           Featured <span className="text-gray-400">Projects</span>
         </h2>
-        <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+        <p
+          ref={headerDescriptionRef}
+          className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+        >
           Showcase of innovative web applications and digital experiences
         </p>
       </div>
@@ -142,10 +246,16 @@ export default function ProjectSection() {
               <span className="c-card__tagline text-blue-400 mb-4 text-sm uppercase tracking-wider">
                 {project.tagline}
               </span>
-              <h3 className="c-card__title text-3xl md:text-4xl font-bold mb-6 font-playfair">
+              <h3 
+                ref={(el) => addToTitleRefs(el, index)}
+                className="c-card__title text-3xl md:text-4xl font-bold mb-6 font-playfair"
+              >
                 {project.title}
               </h3>
-              <p className="c-card__excerpt text-gray-300 mb-8 leading-relaxed">
+              <p 
+                ref={(el) => addToDescriptionRefs(el, index)}
+                className="c-card__excerpt text-gray-300 mb-8 leading-relaxed"
+              >
                 {project.description}
               </p>
               <div className="c-card__cta">
