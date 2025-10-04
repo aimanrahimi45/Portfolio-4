@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger.js';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Parallax, Mousewheel } from 'swiper/modules';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 interface PortfolioItem {
   id: number;
@@ -10,9 +11,8 @@ interface PortfolioItem {
   subtitle: string;
   description: string;
   image: string;
-  technologies: string[];
-  liveUrl?: string;
-  githubUrl?: string;
+  highlights: string[];
+  icon: string;
 }
 
 interface PortfolioSectionProps {
@@ -28,33 +28,30 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
   const portfolioItems: PortfolioItem[] = [
     {
       id: 1,
-      title: "E-Commerce",
-      subtitle: "Full Stack Platform",
-      description: "A modern e-commerce platform built with React, TypeScript, and Node.js featuring real-time inventory management and secure payment processing.",
-      image: "/images/portfolio-image1.png",
-      technologies: ["React", "TypeScript", "Node.js", "MongoDB"],
-      liveUrl: "#",
-      githubUrl: "#"
+      title: "Industry Experience Meets Technology",
+      subtitle: "The Foundation",
+      description: "My background in operational processes gives me unique insight into real-world business challenges. I understand workflows before I write code, ensuring solutions that actually work.",
+      image: "/images/Man and robot with computers sitting together in workplace.lottie",
+      highlights: ["Deep operational understanding", "Real-world problem identification", "Process-first approach"],
+      icon: "🏭"
     },
     {
       id: 2,
-      title: "AI Dashboard",
-      subtitle: "Machine Learning",
-      description: "Interactive dashboard for AI model monitoring and analytics with real-time data visualization and predictive analytics capabilities.",
+      title: "Process Automation Specialist",
+      subtitle: "The Approach",
+      description: "I specialize in transforming manual workflows into efficient automated systems. My focus is on practical solutions that deliver measurable business impact and operational efficiency.",
       image: "/images/portfolio-image1.png",
-      technologies: ["React", "Python", "TensorFlow", "D3.js"],
-      liveUrl: "#",
-      githubUrl: "#"
+      highlights: ["Workflow transformation", "Measurable efficiency gains", "Practical automation solutions"],
+      icon: "⚡"
     },
     {
       id: 3,
-      title: "Mobile App",
-      subtitle: "React Native",
-      description: "Cross-platform mobile application with offline capabilities, push notifications, and seamless user experience across iOS and Android.",
+      title: "Tangible Business Impact",
+      subtitle: "The Results",
+      description: "Beyond technical implementation, I focus on delivering real value: time savings, error reduction, and improved compliance. Technology should serve business goals, not the other way around.",
       image: "/images/portfolio-image1.png",
-      technologies: ["React Native", "Firebase", "Redux", "TypeScript"],
-      liveUrl: "#",
-      githubUrl: "#"
+      highlights: ["Time and cost savings", "Error prevention", "Compliance enhancement"],
+      icon: "📈"
     }
   ];
 
@@ -193,11 +190,20 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
                   {/* Image Side */}
                   <div className="relative overflow-hidden group">
                     <div className="swiper-image-inner swiper-image-left">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                      />
+                      {item.image.endsWith('.lottie') ? (
+                        <DotLottieReact
+                          src={item.image}
+                          loop
+                          autoplay
+                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        />
+                      ) : (
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent group-hover:from-black/30 transition-all duration-500"></div>
                     </div>
                   </div>
@@ -216,43 +222,25 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
                       {item.description}
                     </p>
 
-                    {/* Technologies */}
+                    {/* Journey Highlights */}
                     <div className="mb-6">
-                      <h4 className="text-sm uppercase tracking-wider text-gray-400 mb-3">Technologies</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {item.technologies.map((tech, index) => (
-                          <span
+                      <h4 className="text-sm uppercase tracking-wider text-gray-400 mb-3">Key Insights</h4>
+                      <div className="space-y-2">
+                        {item.highlights.map((highlight, index) => (
+                          <div
                             key={index}
-                            className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300 border border-white/10 hover:bg-white/20 hover:text-white transition-all duration-300"
+                            className="flex items-center text-gray-300 text-sm"
                           >
-                            {tech}
-                          </span>
+                            <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-3"></span>
+                            {highlight}
+                          </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* CTA Buttons */}
-                    <div className="flex gap-4">
-                      {item.liveUrl && (
-                        <a
-                          href={item.liveUrl}
-                          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 text-sm font-semibold"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Live Demo
-                        </a>
-                      )}
-                      {item.githubUrl && (
-                        <a
-                          href={item.githubUrl}
-                          className="border border-white/20 text-white px-6 py-3 rounded-lg hover:border-white/40 hover:bg-white/5 transition-all duration-300 text-sm font-semibold"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          GitHub
-                        </a>
-                      )}
+                    {/* Icon Indicator */}
+                    <div className="text-4xl opacity-60 mt-4">
+                      {item.icon}
                     </div>
                   </div>
                 </div>
