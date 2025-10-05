@@ -19,6 +19,55 @@ interface PortfolioSectionProps {
   className?: string;
 }
 
+// Lazy loaded media component for both dotlottie and images
+function LazyMedia({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={className}>
+      {isVisible ? (
+        src.endsWith('.lottie') ? (
+          <DotLottieReact
+            src={src}
+            loop
+            autoplay
+            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+          />
+        ) : (
+          <img
+            src={src}
+            alt={alt}
+            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+          />
+        )
+      ) : (
+        <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+          <div className="text-white text-sm">Loading...</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function PortfolioSection({ className = '' }: PortfolioSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -26,30 +75,33 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const portfolioItems: PortfolioItem[] = [
+    // Card 1: Foundation - Industry Experience
     {
       id: 1,
       title: "Industry Experience Meets Technology",
       subtitle: "The Foundation",
       description: "My background in operational processes gives me unique insight into real-world business challenges. I understand workflows before I write code, ensuring solutions that actually work.",
-      image: "/images/Man and robot with computers sitting together in workplace.lottie",
+      image: "/images/Man and robot with computers sitting together in workplace.lottie", // Collaboration and teamwork theme
       highlights: ["Deep operational understanding", "Real-world problem identification", "Process-first approach"],
       icon: "🏭"
     },
+    // Card 2: Approach - Process Automation
     {
       id: 2,
       title: "Process Automation Specialist",
       subtitle: "The Approach",
       description: "I specialize in transforming manual workflows into efficient automated systems. My focus is on practical solutions that deliver measurable business impact and operational efficiency.",
-      image: "/images/portfolio-image1.png",
+      image: "/images/Marketing%20Campaign%20-%20Creative%203D%20Animation.lottie", // Marketing and creative automation theme
       highlights: ["Workflow transformation", "Measurable efficiency gains", "Practical automation solutions"],
       icon: "⚡"
     },
+    // Card 3: Results - Business Impact
     {
       id: 3,
       title: "Tangible Business Impact",
       subtitle: "The Results",
       description: "Beyond technical implementation, I focus on delivering real value: time savings, error reduction, and improved compliance. Technology should serve business goals, not the other way around.",
-      image: "/images/portfolio-image1.png",
+      image: "/images/AI%20data.lottie", // AI and data analytics theme
       highlights: ["Time and cost savings", "Error prevention", "Compliance enhancement"],
       icon: "📈"
     }
@@ -189,21 +241,12 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
                 <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
                   {/* Image Side */}
                   <div className="relative overflow-hidden group">
-                    <div className="swiper-image-inner swiper-image-left">
-                      {item.image.endsWith('.lottie') ? (
-                        <DotLottieReact
-                          src={item.image}
-                          loop
-                          autoplay
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                        />
-                      ) : (
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                        />
-                      )}
+                    <div className={`swiper-image-inner swiper-image-left ${item.id === 2 || item.id === 3 ? 'lottie-position-down lottie-scale-sm' : ''}`}>
+                      <LazyMedia
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent group-hover:from-black/30 transition-all duration-500"></div>
                     </div>
                   </div>
@@ -276,6 +319,15 @@ export default function PortfolioSection({ className = '' }: PortfolioSectionPro
         
         .swiper-slide-active .swiper-image-left {
           filter: sepia(0%);
+        }
+        
+        .lottie-position-down {
+          padding-top: 5rem;
+        }
+        
+        .lottie-scale-sm {
+          transform: scale(1.2);
+          transform-origin: center;
         }
       `}</style>
     </section>

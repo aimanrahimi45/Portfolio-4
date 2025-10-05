@@ -1,3 +1,9 @@
 node_modules
 .cache
 build
+.bmad-core
+.bmad-2d-unity-game-dev
+.bmad-2d-phaser-game-dev
+.bmad-creative-writing
+.bmad-godot-game-dev
+.bmad-infrastructure-devops
